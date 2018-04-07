@@ -56,24 +56,30 @@
                         <ul class="list-group todo-list">
                         <?php
                             function cmp($a, $b) {
-                                return strcmp($a->getNom(), $b->getNom());
+                                return strcmp($a->getDate(), $b->getDate());
                             }
                             usort($tasks, "cmp");
                             foreach($tasks as $task) {
-                                print "<div class='card mb-1'>";
+                                if ($task->getCompleted()) {
+                                    print "<div class='card mb-1 border border-success'>";
+                                } elseif ($_GET['action'] === "edit" && $task->getId() === $_GET['id']) {
+                                    print "<div class='card mb-1 border border-primary'>";
+                                } else {
+                                    print "<div class='card mb-1'>";
+                                }
                                     print "<div class='card-body'>";
                                         if($_GET['action'] !== "edit" || $_GET['id'] !== $task->getId()) {
-                                            print "<p>" . "Nom : " . $task->getNom() . "</p>";
-                                            print "<p>" . "Description : " . $task->getDescription() . "</p>";
-                                            print "<p>" . "Date : " . $task->getDate() . "</p>";
-                                            print "<span>" . "Complété : ";
+                                            print "<p>" . "<strong>Nom</strong> : " . $task->getNom() . "</p>";
+                                            print "<p>" . "<strong>Description</strong> : " . $task->getDescription() . "</p>";
+                                            print "<p>" . "<strong>Date</strong> : " . $task->getDate() . "</p>";
+                                            print "<span>" . "<strong>Complété</strong> : ";
                                             print ($task->getCompleted() == false) ? "Non" : "Oui" . "</span>";
                                             print "<a href='index.php?controller=Home&action=delete&id=" . $task->getId() . "' class='btn btn-danger float-right'>Delete</a>";
                                             print "<a href='index.php?controller=Home&action=edit&id=" . $task->getId() . "' class='btn btn-primary mr-1 float-right'>Edit</a>";
                                             if ($task->getCompleted() === false) {
                                                 print "<a href='index.php?controller=Home&action=markDone&id=" . $task->getId() . "' class='btn btn-success mr-1 float-right'>Done</a>";
                                             } else {
-                                                print "<a href='index.php?controller=Home&action=markUndone&id=" . $task->getId() . "' class='btn btn-success mr-1 float-right'>Undone</a>";
+                                                print "<a href='index.php?controller=Home&action=markUndone&id=" . $task->getId() . "' class='btn btn-outline-success mr-1 float-right'>Undone</a>";
                                             }
                                         } else {
                                             print "<form action='index.php?controller=Home&action=save' method='post' class='mb-4'>";
