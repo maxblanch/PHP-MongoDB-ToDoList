@@ -34,7 +34,6 @@
         $controller = $_GET['controller'];
         $action = $_GET['action'];
     } else {
-        print "in the else";
         $controller = 'Signin';
         $action = 'requestSignin';
     }
