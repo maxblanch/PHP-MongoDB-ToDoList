@@ -2,8 +2,10 @@
     $action = null;
     $controller = null;
 
+
+
     $controllers = array(
-        'Home' => ['home', 'error', 'processSignout', 'create', 'getAll', 'delete', 'markDone', 'markUndone', 'edit', 'save'],
+        'Home' => ['home', 'error', 'create', 'getAll', 'delete', 'markDone', 'markUndone', 'edit', 'save'],
         'Signup' => ['requestSignup', 'processSignup'],
         'Signin' => ['requestSignin', 'processSignin', 'processSignout']
     );
@@ -28,6 +30,15 @@
                 echo 'Bad things happen';
         }
         $display->{$action}();
+    }
+
+    if(isset($_SESSION['timestamp'])) {
+        if($_SESSION['timestamp'] + 60 < time()) {
+            $_GET['controller']  = 'Signin';
+            $_GET['action'] = 'processSignout';
+        } else {
+            $_SESSION['timestamp'] = time();
+        }
     }
 
     if (isset($_GET['controller']) && isset($_GET['action'])) {

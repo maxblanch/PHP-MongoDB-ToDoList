@@ -60,10 +60,10 @@
                             }
                             usort($tasks, "cmp");
                             foreach($tasks as $task) {
-                                if ($task->getCompleted()) {
-                                    print "<div class='card mb-1 border border-success'>";
-                                } elseif ($_GET['action'] === "edit" && $task->getId() === $_GET['id']) {
+                                if ($_GET['action'] === "edit" && $task->getId() === $_GET['id']) {
                                     print "<div class='card mb-1 border border-primary'>";
+                                } elseif ($task->getCompleted()) {
+                                    print "<div class='card mb-1 border border-success'>";
                                 } else {
                                     print "<div class='card mb-1'>";
                                 }

@@ -16,7 +16,6 @@
                         <label for="userLogin">Username</label>
                         <input type="text" class="form-control <?php echo (!empty($data['username_err'])) ? 'is-invalid' : ''; ?>" name="userLogin" id="userLogin" placeholder="Username">
                         <span class="invalid-feedback"><?php echo $data['username_err']; ?></span>
-                        <small id="emailHelp" class="form-text text-muted">Don't try to make naughty stuff!</small>
                     </div>
                     <div class="form-group">
                         <label for="userPassword">Password</label>

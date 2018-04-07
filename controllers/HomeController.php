@@ -106,7 +106,7 @@
             $this->model->task->setNom($_POST['taskName']);
             $this->model->task->setDescription($_POST['taskDescription']);
             $this->model->task->setDate($_POST['taskDate']);
-            $completed = ($_POST['taskCompleted'] === false) ? true : false;
+            $completed = ($_POST['taskCompleted'] === false) ? false : true;
             $this->model->task->setCompleted($completed);
             $this->service->update($this->model->getTask(), $taskId);
             $_SESSION['status'] = "The task was successfully updated";
