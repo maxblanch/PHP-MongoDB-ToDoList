@@ -43,20 +43,46 @@
             </form>
             <ul class="list-group todo-list">
             <?php
+                function cmp($a, $b) {
+                    return strcmp($a->getNom(), $b->getNom());
+                }
+                usort($tasks, "cmp");
                 foreach($tasks as $task) {
                     print "<div class='card mb-1'>";
                          print "<div class='card-body'>";
-                            print "<p>" . "Nom : " . $task->getNom() . "</p>";
-                            print "<p>" . "Description : " . $task->getDescription() . "</p>";
-                            print "<p>" . "Date : " . $task->getDate() . "</p>";
-                            print "<span>" . "Complété : ";
-                            print ($task->getCompleted() == false) ? "Non" : "Oui" . "</span>";
-                            print "<a href='index.php?controller=Home&action=delete&id=" . $task->getId() . "' class='btn btn-danger float-right'>Delete</a>";
-                            print "<a href='index.php?controller=Home&action=update&id=" . $task->getId() . "' class='btn btn-primary mr-1 float-right'>Edit</a>";
-                            if ($task->getCompleted() === false) {
-                                print "<a href='index.php?controller=Home&action=markDone&id=" . $task->getId() . "' class='btn btn-success mr-1 float-right'>Done</a>";
+                            if($_GET['action'] !== "edit" || $_GET['id'] !== $task->getId()) {
+                                print "<p>" . "Nom : " . $task->getNom() . "</p>";
+                                print "<p>" . "Description : " . $task->getDescription() . "</p>";
+                                print "<p>" . "Date : " . $task->getDate() . "</p>";
+                                print "<span>" . "Complété : ";
+                                print ($task->getCompleted() == false) ? "Non" : "Oui" . "</span>";
+                                print "<a href='index.php?controller=Home&action=delete&id=" . $task->getId() . "' class='btn btn-danger float-right'>Delete</a>";
+                                print "<a href='index.php?controller=Home&action=edit&id=" . $task->getId() . "' class='btn btn-primary mr-1 float-right'>Edit</a>";
+                                if ($task->getCompleted() === false) {
+                                    print "<a href='index.php?controller=Home&action=markDone&id=" . $task->getId() . "' class='btn btn-success mr-1 float-right'>Done</a>";
+                                } else {
+                                    print "<a href='index.php?controller=Home&action=markUndone&id=" . $task->getId() . "' class='btn btn-success mr-1 float-right'>Undone</a>";
+                                }
                             } else {
-                                print "<a href='index.php?controller=Home&action=markUndone&id=" . $task->getId() . "' class='btn btn-success mr-1 float-right'>Undone</a>";
+                                print "<form action='index.php?controller=Home&action=save' method='post' class='mb-4'>";
+                                print "<div class='form-group mb-1'>"; ?>
+                                    <input type="text" name="taskName" class="form-control"  id="taskName" value="<?php print $task->getNom(); ?>">
+                                    <?php
+                                    print "<span class='invalid-feedback'>" . $errors['taskName_err'] . "</span>";
+                                print "</div>";
+                                print "<div class='form-group'>"; ?>
+                                    <input type="text" name="taskDescription" class="form-control"  id="taskDescription" value="<?php print $task->getDescription(); ?>">
+                                    <?php
+                                    print "<span class='invalid-feedback'>" . $errors['taskDescription_err'] . "</span>";
+                                print "</div>";
+                                    print "<button class='btn btn-success float-right' type='submit'>Save</button>";
+                                    ?>
+                                    <input type="hidden" name="taskId" value="<?php print $task->getId(); ?>">
+                                    <input type="hidden" name="taskUser" value="<?php print $task->getUser(); ?>">
+                                    <input type="hidden" name="taskCompleted" value="<?php print $task->getCompleted(); ?>">
+                                    <input type="hidden" name="taskDate" value="<?php print $task->getDate(); ?>">
+                                    <?php
+                                print "</form>";
                             }
                         print "</div>";
                     print "</div>";

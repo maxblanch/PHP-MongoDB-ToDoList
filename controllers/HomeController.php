@@ -86,4 +86,31 @@
                 $controller->home();
             }
         }
-    }
+
+        public function edit() {
+            if($task = $this->service->get($_GET['id'])) {
+                $this->model->setTask($task);
+                $tasks = $this->getAll();
+                $view = new HomeView($this->model);
+                $view->render($errors, $tasks);
+            } else {
+                $controller = new HomeController(new HomeModel(), new TaskRepository());
+                $controller->home();
+            }
+        }
+
+        public function save() {
+            $this->model->setTask(new Task());
+            $taskId = $_POST['taskId'];
+            $this->model->task->setUser($_SESSION['username']);
+            $this->model->task->setNom($_POST['taskName']);
+            $this->model->task->setDescription($_POST['taskDescription']);
+            $this->model->task->setDate($_POST['taskDate']);
+            $completed = ($_POST['taskCompleted'] === false) ? true : false;
+            $this->model->task->setCompleted($completed);
+            $this->service->update($this->model->getTask(), $taskId);
+            $_SESSION['status'] = "The task was successfully updated";
+            $controller = new HomeController(new HomeModel(), new TaskRepository());
+            $controller->home();
+            }
+        }

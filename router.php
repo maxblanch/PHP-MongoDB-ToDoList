@@ -3,7 +3,7 @@
     $controller = null;
 
     $controllers = array(
-        'Home' => ['home', 'error', 'processSignout', 'create', 'getAll', 'delete', 'markDone', 'markUndone'],
+        'Home' => ['home', 'error', 'processSignout', 'create', 'getAll', 'delete', 'markDone', 'markUndone', 'edit', 'save'],
         'Signup' => ['requestSignup', 'processSignup'],
         'Signin' => ['requestSignin', 'processSignin', 'processSignout']
     );
